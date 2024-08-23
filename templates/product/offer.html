@@ -1,0 +1,166 @@
+{% extends 'admin_base.html' %}
+
+{% block heading%}
+   Offer Product List
+{%endblock%}
+
+
+
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+ <li class="breadcrumb-item">
+   <a href="#">Dashboard</a>
+ </li>
+ <li class="breadcrumb-item">
+  <a href="#">Product</a>
+</li>
+
+<li class="breadcrumb-item">
+    <a href="#">Offer</a>
+  </li>
+ <li class="breadcrumb-item active">List</li>
+</ol>
+{% endblock breadcrumb %}
+
+
+{% block content %}
+<section class="mx-2">
+    <div class="card d-flex flex-wrap">
+        <div class="card-header bg-info d-flex justify-content-between align-items-center">
+            <h3 class="card-title mr-auto">Offer Products</h3>
+            <div class="input-group input-group-sm w-50">
+                <input type="text" id="search-input" class="form-control" placeholder="Find only offer products">
+                <div class="input-group-append">
+                    <button class="btn btn-warning" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-tools ml-auto">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="card-body p-0 mt-auto" >
+            <table class="table table-striped projects mb-0" id="offer-table">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">SN</th>
+                        <th style="width: 20%">Product Name</th>
+                        <th style="width: 10%">Offer Name</th>
+                        <th style="width: 10%">Price Change</th>
+                        <th style="width: 10%">Updated</th>
+                        <th style="width: 5%" class="text-center">Status</th>
+                        <th style="width: 20%"></th>
+                    </tr>
+                </thead>
+                <tbody id="offer-table-body">
+                    <!-- Offer rows will be dynamically populated here -->
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-around mt-1">
+                <div class="text-md text-bold">
+                    Total Products: <span id="total-products">0</span>
+                </div>
+                <div class="">
+                    <nav aria-label="...">
+                        <ul class="pagination" id="pagination-container">
+                            <!-- Pagination links will be dynamically populated here -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search-input');
+        const offerTableBody = document.getElementById('offer-table-body');
+        const paginationContainer = document.getElementById('pagination-container');
+        const totalProducts = document.getElementById('total-products');
+        let current_page = 1;
+        const pageSize = 10;
+
+        function fetchOffers(query = '', page = 1) {
+            fetch(`/dashboard/product/offer/?query=${query}&page=${page}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                totalProducts.textContent = data.count;
+                displayOffers(data.results, page);
+                displayPagination(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function displayOffers(offers, page) {
+            offerTableBody.innerHTML = '';
+            offers.forEach((offer, index) => {
+                offerTableBody.innerHTML += `
+                    <tr>
+                        <td>${(page - 1) * pageSize + index + 1}</td>
+                        <td>
+                            <a>${offer.product.name}</a>
+                            <br />
+                            <small>discount: ${offer.discount_percent}%</small>
+                        </td>
+                        <td>${offer.name}</td>
+                        <td>${offer.product.price} -> ${offer.price_after_offer}</td>
+                        <td class="project_progress">${offer.updated_at}</td>
+                        <td class="project-state">
+                            <span class="badge badge-success text-md">${offer.status}</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a class="btn btn-primary btn-sm" href="#">
+                                <i class="fas fa-folder"></i>
+                                View
+                            </a>
+                            <a class="btn btn-info btn-sm" href="#">
+                                <i class="fas fa-pencil-alt"></i>
+                                Edit
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function displayPagination(data) {
+            paginationContainer.innerHTML = '';
+            if (data.previous) {
+                paginationContainer.innerHTML += `<li class="page-item"><a class="page-link" href="#" data-page="${data.current_page - 1}">Previous</a></li>`;
+            }
+            for (let i = 1; i <= data.total_pages; i++) {
+                paginationContainer.innerHTML += `<li class="page-item ${i === current_page ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+            }
+            if (data.next) {
+                paginationContainer.innerHTML += `<li class="page-item"><a class="page-link" href="#" data-page="${data.current_page + 1}">Next</a></li>`;
+            }
+        }
+
+        searchInput.addEventListener('input', function () {
+            fetchOffers(searchInput.value, 1);
+        });
+
+        paginationContainer.addEventListener('click', function (event) {
+            if (event.target.tagName === 'A') {
+                event.preventDefault();
+                const page = parseInt(event.target.getAttribute('data-page'));
+                current_page = page;
+                fetchOffers(searchInput.value, page);
+            }
+        });
+
+        fetchOffers();
+    });
+</script>
+{% endblock %}

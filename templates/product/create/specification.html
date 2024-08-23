@@ -1,0 +1,432 @@
+{% extends 'base.html' %}
+{%block custom_css%}
+<style>
+    .content-1 {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #preview {
+        max-width: 100%;
+        max-height: 600px;
+        /* margin-top: 20px; */
+
+    }
+
+    #fileName {
+        margin-top: 2px;
+        font-weight: bold;
+    }
+
+    .stepwizard-step p {
+        margin-top: 0px;
+        color:#666;
+    }
+    .stepwizard-row {
+        display: table-row;
+    }
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+    }
+    .stepwizard-step button[disabled] {
+        /*opacity: 1 !important;
+        filter: alpha(opacity=100) !important;*/
+    }
+    .stepwizard .btn.disabled, .stepwizard .btn[disabled], .stepwizard fieldset[disabled] .btn {
+        opacity:1 !important;
+        color:#bbb;
+    }
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content:" ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-index: 0;
+    }
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+
+  
+
+</style>
+
+{%endblock%}
+{% block content %}
+<h4 class="text-center mt-3"> Add a new product</h4>
+<div class="container">
+    <div class="stepwizard mb-0">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-3"> 
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Information <span class="text-danger">*</span></small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3"> 
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p><small>Images</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3"> 
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Location</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3"> 
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p><small>Offer</small></p>
+            </div>
+        </div>
+    </div>
+
+
+
+<form id="productForm" method="post" enctype="multipart/form-data">
+<div class="row content-1">
+ 
+        {%csrf_token%}
+    <div class="col-12">
+        <div class="card">
+
+            <h5 class="card-header text-center text-lg bg-primary"> General</h5>
+            <div class="card-body">
+
+
+                <div class="form-row">
+                    <div class="col-md-3 ">
+                        <label for="validationServer01">Category</label>
+                        <select class="form-control" required name="category">
+                            <option value="" >-----</option>
+                            {% for choice in form.category.field.queryset %}
+                            <option value="{{ choice.id }}"  {% if form.category.value|stringformat:"s" == choice.id|stringformat:"s" %}selected{% endif %}>
+                                {{ choice.name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                        {% for error in form.category.errors %}
+                        <div class="text-danger text-sm">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="col-md-3 ">
+                        <label for="validationServer01">Name</label>
+                        <input type="text" required class="form-control {% if form.name.errors %}is-invalid{%endif%}" 
+                        name="name" placeholder="Product name"
+                        {% if form.name.value %}value="{{ form.name.value }}" {% endif %}
+                            >
+                        {% for error in form.name.errors %}
+                        <div class="invalid-feedback">
+                           {{error}}
+                        </div>
+                          {% endfor %}
+                       
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationServer01">Model Number</label>
+                        <input type="text" required class="form-control {% if form.model_number.errors %}is-invalid{%endif%}" name="model_number" placeholder="Model Number"
+                        {% if form.model_number.value %}value="{{ form.model_number.value }}" {% endif %}  >
+                            {% for error in form.model_number.errors %}
+                            <div class="invalid-feedback">
+                               {{error}}
+                            </div>
+                              {% endfor %}
+                    </div>
+                    <div class="col-md-1">
+                        <label for="validationServer01">Stock</label>
+                        <input type="number" required class="form-control {% if form.stock.errors %}is-invalid{%endif%}" name="stock" 
+                        {% if form.stock.value %}value="{{ form.stock.value }}" {% endif %}>
+                        {% for error in form.stock.errors %}
+                        <div class="invalid-feedback">
+                           {{error}}
+                        </div>
+                          {% endfor %}
+                    </div>
+                    <div class="col-md-2">
+                        <label for="validationServer01">Price</label>
+                        <input type="number" required class="form-control {% if form.price.errors %}is-invalid{%endif%}" name="price" step="0.01" 
+                        {% if form.price.value %}value="{{ form.price.value }}" {% endif %}>
+                        {% for error in form.price.errors %}
+                        <div class="invalid-feedback">
+                           {{error}}
+                        </div>
+                          {% endfor %}
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-6">
+        <div class="card">
+            <h5 class="card-header text-center text-lg bg-danger text-white">Specification</h5>
+            <div class="card-body">
+                <div id="specForm">
+                    <div id="specifications">
+                        
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <button type="button" class="btn btn-danger rounded-circle text-center mt-4"
+                            id="addSpecButton">+</button>
+                    </div>
+                    <input type="hidden" name="specifications" />
+                    <!-- check points here submit should be below and work under below submit~ -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+
+            <h5 class="card-header text-center text-lg bg-info "> Description</h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <textarea name="description" required class="form-control {% if form.description.errors %}is-invalid{%endif%}"
+                        placeholder="Write the discrption about the product">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+                </div>
+                {% for error in form.description.errors %}
+                <div class="invalid-feedback">
+                   {{error}}
+                </div>
+                  {% endfor %}
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <h5 class="card-header text-center text-lg bg-info "> Featured Image</h5>
+            <div class="form-group mt-2 d-flex justify-content-center">
+                <label for="imageUpload" class="btn btn-info">Choose Image</label>
+                                <input type="file" id="imageUpload" accept="image/*" name="featured_image" class="form-control-file"
+                    style="display:none;">
+            </div>
+            {% for error in form.featured_image.errors %}
+            <div class="d-flex justify-content-center text-sm text-danger">
+             <p>   {{error}}</p>
+            </div>
+              {% endfor %}
+
+
+            <p id="fileName" class="d-flex justify-content-center" style="display:none;"></p>
+            
+            <div class="form-group d-flex justify-content-center">
+                <img id="preview" src="#" alt="Image Preview" class="img-fluid" style="display:none;">
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-success" type="submit">
+        </div>
+    </div>
+
+</div>
+</form>
+</div>
+
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview');
+        const fileName = document.getElementById('fileName');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                fileName.textContent = `Selected file: ${file.name}`;
+                fileName.style.display = 'block';
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+            fileName.style.display = 'none';
+        }
+    });
+
+    document.querySelector('label[for="imageUpload"]').addEventListener('click', function () {
+        document.getElementById('imageUpload').click();
+    });
+
+</script>
+<script>
+    document.getElementById('productForm').addEventListener('submit', function(event) {
+        // Perform form validation
+        if (this.checkValidity()) {
+            // Custom logic if form is valid
+            event.preventDefault();
+            if (confirm('Are you sure you want to submit the form?')) {
+                const jsonField = handleSpecifications();
+                this.appendChild(jsonField);
+                this.submit();
+            }
+        } else {
+            // If form is invalid, prevent submission and show validation feedback
+            event.preventDefault();
+            this.reportValidity(); // Show default browser validation messages
+        }
+    });
+    
+</script>
+<script>
+    document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Show a confirmation dialog
+        if (confirm('Are you sure you want to submit the form?')) {
+            // Get the form element by ID
+            const form = document.getElementById('productForm');
+
+
+            // Handle specifications and append hidden field
+            const jsonField = handleSpecifications();
+            form.appendChild(jsonField);
+
+            // Submit the form programmatically
+            form.method = 'POST'; // Ensure the method is POST
+            form.submit();
+        } else {
+            console.log('Form submission canceled.');
+        }
+    });
+
+    // Function to handle the addition of specifications data before form submission
+    function handleSpecifications() {
+        const labels = document.getElementsByName('label');
+        const values = document.getElementsByName('value');
+        let specifications = [];
+
+        for (let i = 0; i < labels.length; i++) {
+            // Avoid adding empty labels or values
+            if (labels[i].value.trim() && values[i].value.trim()) {
+                specifications.push({
+                    label: labels[i].value,
+                    value: values[i].value
+                });
+            }
+        }
+
+        // Create a hidden input field for the specifications
+        const jsonField = document.createElement('input');
+        jsonField.type = 'hidden';
+        jsonField.name = 'specifications';
+        jsonField.value = JSON.stringify(specifications);
+
+        return jsonField;
+    }
+
+
+
+    // Add event listener to dynamically added remove buttons
+    function addRemoveButtonListener(button) {
+        button.addEventListener('click', function () {
+            button.parentElement.parentElement.remove();
+        });
+    }
+
+    // // Initialize remove button listeners
+    // document.querySelectorAll('.removeSpecButton').forEach(function (button) {
+    //     addRemoveButtonListener(button);
+    // });
+
+    // // Handle adding new specification fields
+    document.getElementById('addSpecButton').addEventListener('click', function () {
+        const specContainer = document.getElementById('specifications');
+        const newSpec = document.createElement('div');
+        newSpec.className = 'form-row mb-2';
+        newSpec.innerHTML = `
+            <div class="col-md-5">
+                <input type="text" class="form-control" name="label" placeholder="Label">
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" name="value" placeholder="Value">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger removeSpecButton">Remove</button>
+            </div>
+        `;
+        specContainer.appendChild(newSpec);
+        addRemoveButtonListener(newSpec.querySelector('.removeSpecButton'));
+    });
+
+
+    const specifications = JSON.parse('{{ form.specifications.value | escapejs}}');
+
+        // Initialize the form with existing specifications
+        initializeSpecifications(specifications);
+
+        function initializeSpecifications(specs) {
+            specs.forEach(spec => {
+                addSpecificationField(spec.label, spec.value);
+            });
+        }
+
+        // document.getElementById('addSpecButton').addEventListener('click', function () {
+            // addSpecificationField('', '');
+        // });
+
+        function addSpecificationField(labelValue, valueValue) {
+            const specContainer = document.getElementById('specifications');
+            const newSpec = document.createElement('div');
+            newSpec.className = 'form-row mb-2';
+            newSpec.innerHTML = `
+                <div class="col-md-5">
+                    <input type="text" class="form-control" name="label" placeholder="Label" value="${labelValue}">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" name="value" placeholder="Value" value="${valueValue}">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger removeSpecButton">Remove</button>
+                </div>
+            `;
+            specContainer.appendChild(newSpec);
+            newSpec.querySelector('.removeSpecButton').addEventListener('click', function () {
+         newSpec.remove();
+    });
+        }
+
+    
+
+
+</script>
+
+
+
+{%endblock%}

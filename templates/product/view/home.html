@@ -1,0 +1,447 @@
+{%  extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block custom_css %}
+<link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+<link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+<style>
+    .card-img-top {
+        width: 100%;
+        min-height: 100px;
+        max-height: 100px;
+        object-fit: contain;
+    }
+
+    .card-title {
+        overflow: hidden;
+        height: 55px;
+        font-size: 1rem;
+    }
+
+    .card-title a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .label-top {
+        position: absolute;
+        background-color: #6c757d;
+        color: #fff;
+        top: 8px;
+        right: 8px;
+        padding: 5px 10px;
+        font-size: .7rem;
+        font-weight: 600;
+        border-radius: 3px;
+        text-transform: uppercase;
+    }
+
+    .category-label {
+        position: absolute;
+        background-color: #007bff;
+        color: #fff;
+        top: 8px;
+        left: 8px;
+        padding: 5px 10px;
+        font-size: .7rem;
+        font-weight: 600;
+        border-radius: 3px;
+        text-transform: uppercase;
+    }
+
+    .price-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .actual-price {
+        text-decoration: line-through;
+        color: #dc3545;
+        font-size: 1rem;
+    }
+
+    .offer-price {
+        color: #28a745;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .btn-warning {
+        background: #ffcc00;
+        color: #3d3d3d;
+        border: none;
+        text-decoration: none;
+        border-radius: 100px;
+    }
+
+    .btn-warning:hover {
+        background: #ffc116;
+        color: #ffffff;
+    }
+
+    .ticker {
+        display: flex;
+        flex-wrap: wrap;
+        width: 104%;
+        height: 50px;
+        margin: 0 auto;
+    }
+
+    .news {
+        width: 76%;
+        background: greenyellow;
+        padding: 0 0%;
+    }
+
+    .title {
+        width: 20%;
+        text-align: center;
+        background: yellow;
+        position: relative;
+    }
+
+    .title:after {
+        position: absolute;
+        content: "";
+        right: -22%;
+        border-left: 20px solid yellow;
+        border-top: 28px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 21px solid transparent;
+        top: 0px;
+    }
+
+    .title h5 {
+        font-size: 18px;
+        margin: 8% 0;
+    }
+
+    .news marquee {
+        font-size: 18px;
+        margin-top: 12px;
+    }
+
+    .news-content p {
+        margin-right: 10px;
+        display: inline;
+    }
+
+    .fixed-size-img {
+        width: 100%;
+        height: 375px; /* or any fixed height you prefer */
+        object-fit: cover;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+        .card-title {
+            font-size: 0.9rem;
+        }
+
+        .actual-price, .offer-price {
+            font-size: 0.9rem;
+        }
+
+        .ticker {
+            width: 100%;
+            height: auto;
+        }
+
+        .title {
+            width: 100%;
+            text-align: left;
+        }
+
+        .title h5 {
+            font-size: 16px;
+        }
+
+        .news marquee {
+            font-size: 16px;
+        }
+
+        .fixed-size-img {
+            height: 250px; /* Adjust height for smaller screens */
+        }
+
+        .btn-app {
+            font-size: 0.8rem;
+        }
+
+        .card-title a {
+            font-size: 0.9rem;
+        }
+
+        .carousel-inner img {
+            height: auto; /* Adjust image height */
+        }
+
+        .carousel-caption h5 {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-title {
+            font-size: 0.8rem;
+        }
+
+        .actual-price, .offer-price {
+            font-size: 0.8rem;
+        }
+
+        .title h5 {
+            font-size: 14px;
+        }
+
+        .news marquee {
+            font-size: 14px;
+        }
+
+        .fixed-size-img {
+            height: 100px; /* Further adjust height for very small screens */
+        }
+
+        .btn-app {
+            font-size: 0.7rem;
+        }
+
+        .card-title a {
+            font-size: 0.8rem;
+        }
+
+        .carousel-inner img {
+            height: 150px; /* Adjust image height for very small screens */
+            object-fit: contain;
+        }
+
+        .carousel-caption h5 {
+            font-size: 0.5rem;
+        }
+    }
+</style>
+{%endblock%}
+{% block content %}
+<div class="row mx-2 ">
+    <div class=" col-md-6 col-sm-12">
+        <div id="featured_products" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              {% for product in featured_products %}
+              <li data-target="#featured_products" data-slide-to="{{ forloop.counter|subtract:1 }}"  {% if forloop.counter == 1 %} class="active" {% endif %}></li>
+              {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+              {% for product in featured_products %}
+              <div class="carousel-item  {% if forloop.counter == 1 %} active {% endif %}">
+                <img class="d-block w-100 fixed-size-img" src="{{ product.product.featured_image.url }}" alt="First slide">
+                <div class="carousel-caption  d-md-block  " style="">
+                  <div style=" background-color: rgba(0,0 , 0, 0.4)">
+                    <h5 class="shadow-none p-1 mb-5 text-bold text-capitalize " style="color: yellow;">{{product.title}}
+                    <br>
+                    {{product.short_description}}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+                {% endfor %}
+                <a class="carousel-control-prev" href="#featured_products" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#featured_products" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+          </div>
+        </div>
+    </div>
+
+    <div class=" col-md-6 col-sm-12">
+            <div class="row">
+              {% for product in offered_products %}
+                <div class="col-md-4 col-sm-12">
+                    <div class="card h-100 shadow-sm">
+                        <div class="category-label">{{product.product.category}}</div>
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                            <img src="{{product.product.featured_image.url}}" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                        </a>
+                        {% if product.product.brand %}
+                        <div class="label-top">
+                            <a style="color : #D6ED17FF;" href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.brand}}</a>
+                        </div>
+                        {%endif%}
+
+                        <div class="ml-1 mr-1">
+                            <div>
+                                <div class="d-flex justify-content-around  align-items-center flex-wrap">
+                                    <div>
+                                        <span class="actual-price">रु  {{product.product.price}}</span> <br>
+                                         <span class="offer-price">रु  {{product.price_after_offer}}</span>
+                                    </div>
+                                    <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning ml-auto">Buy</a>
+                                </div>
+                            </div>
+                            <h5 class="card-title">
+                                <a href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.name}}</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+              {% endfor %}
+            
+            </div>
+            <div class="row"> 
+                <div class="ticker">
+                    <div class="title"><h5>Offers for you</h5></div>
+                        <div class="news"> 
+                            <marquee class="news-content">
+                                {% for news in offer_products_news %}
+                                <p>{{news.description}}<p>
+                                {% endfor %}
+                            </marquee> 
+                        </div>
+                    </div> 
+
+                </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="row mt-2 ">
+    <div class="col-12 ">
+        <div class="text-center text-lg"><span> Products and Services</span></div>
+
+        <div class="d-flex flex-wrap justify-content-around align-items-center">
+
+                        
+                   
+                    <a class="btn btn-app">
+                    <i class="fas fa-pause"></i> Pause
+                    </a>
+                    <a class="btn btn-app">
+                    <i class="fas fa-save"></i> Save
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-warning">3</span>
+                    <i class="fas fa-bullhorn"></i> Notifications
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-success">300</span>
+                    <i class="fas fa-barcode"></i> Products
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-purple">891</span>
+                    <i class="fas fa-users"></i> Users
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-teal">67</span>
+                    <i class="fas fa-inbox"></i> Orders
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-info">12</span>
+                    <i class="fas fa-envelope"></i> Inbox
+                    </a>
+                    <a class="btn btn-app">
+                    <span class="badge bg-danger">531</span>
+                    <i class="fas fa-heart"></i> Likes
+                    </a>
+                    <a class="btn btn-app bg-secondary">
+                    <span class="badge bg-success">300</span>
+                    <i class="fas fa-barcode"></i> Products
+                    </a>
+                    <a class="btn btn-app bg-success">
+                    <span class="badge bg-purple">891</span>
+                    <i class="fas fa-users"></i> Users
+                    </a>
+                    <a class="btn btn-app bg-danger">
+                    <span class="badge bg-teal">67</span>
+                    <i class="fas fa-inbox"></i> Orders
+                    </a>
+                    <a class="btn btn-app bg-warning">
+                    <span class="badge bg-info">12</span>
+                    <i class="fas fa-envelope"></i> Inbox
+                    </a>
+                    <a class="btn btn-app bg-info">
+                    <span class="badge bg-danger">531</span>
+                    <i class="fas fa-heart"></i> Likes
+                    </a>
+                    
+                    </div>
+    </div>
+  </div>
+    <div class="card m-3">
+        <div class="card-header text-lg text-center bg-primary">
+          Trending Products
+        </div>
+        <div class="card-body">
+            <div class="row g-3 p-1">
+                {% for product in trending_products%}
+                <div class="col-md-3 col-sm-12 ">
+                  <div class="card h-100 border border-secondary  shadow-lg">
+                    <div class="category-label">{{product.product.category}}</div>
+                    <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                      <img src="{{product.product.featured_image.url}}" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                    </a>
+                    <div class="label-top">
+                      <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                    </div>
+                    <div class="m-2">
+                      <div class="price-container d-flex justify-content-around flex-wrap">
+                        <span class="actual-price ml-1">$1,345</span>
+                        <span class="offer-price">$1,245</span>
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+
+                      </div>
+                      <h5 class="card-title">
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.name}}</a>
+                      </h5>
+                      
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+                
+        </div>
+    </div>
+    </div>
+    
+    <div class="card m-3">
+        <div class="card-header text-lg text-center bg-primary">
+          Most Sold Products
+        </div>
+        <div class="card-body">
+            <div class="row g-3 p-1">
+                {% for product in most_sold_products%}
+                <div class="col-md-3 col-sm-12 ">
+                  <div class="card h-100 border border-secondary  shadow-lg">
+                    <div class="category-label">{{product.product.category}}</div>
+                    <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                      <img src="{{product.product.featured_image.url}}" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                    </a>
+                    <div class="label-top">
+                      <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                    </div>
+                    <div class="m-2">
+                      <div class="price-container d-flex justify-content-around flex-wrap">
+                        <span class="actual-price ml-1">$1,345</span>
+                        <span class="offer-price">$1,245</span>
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+
+                      </div>
+                      <h5 class="card-title">
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.name}}</a>
+                      </h5>
+                      
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+                
+        </div>
+    </div>
+      
+</div>
+{%endblock%}

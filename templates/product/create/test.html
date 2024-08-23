@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet">
+  <style>
+    .card-img-top {
+      width: 100%;
+      min-height: 250px;
+      max-height: 250px;
+      object-fit: contain;
+      padding: 30px;
+    }
+    .card-title {
+      overflow: hidden;
+      height: 55px;
+      font-size: 1rem;
+    }
+    .card-title a {
+      color: black;
+      text-decoration: none;
+    }
+    .label-top {
+      position: absolute;
+      background-color: #6c757d;
+      color: #fff;
+      top: 8px;
+      right: 8px;
+      padding: 5px 10px;
+      font-size: .7rem;
+      font-weight: 600;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .category-label {
+      position: absolute;
+      background-color: #007bff;
+      color: #fff;
+      top: 8px;
+      left: 8px;
+      padding: 5px 10px;
+      font-size: .7rem;
+      font-weight: 600;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .price-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .actual-price {
+      text-decoration: line-through;
+      color: #dc3545;
+      font-size: 1rem;
+    }
+    .offer-price {
+      color: #28a745;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .btn-warning {
+      background: #ffcc00;
+      color: #3d3d3d;
+      border: none;
+      text-decoration: none;
+      border-radius: 100px;
+    }
+    .btn-warning:hover {
+      background: #ffc116;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<div class="container my-4">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="category-label">Laptop</div>
+        <a href="https://amzn.to/3qeS1Fe" target="_blank">
+          <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+        </a>
+        <div class="label-top">
+          <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+        </div>
+        <div class="card-body">
+          <div class="price-container">
+            <span class="actual-price">$1,345</span>
+            <span class="offer-price">$1,245</span>
+          </div>
+          <h5 class="card-title">
+            <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+          </h5>
+          <div class="d-grid gap-2 my-4">
+            <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat similar structure for other products -->
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

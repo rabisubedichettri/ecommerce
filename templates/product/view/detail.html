@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% block custom_css %}
+<style>
+  .old-price {
+    font-size: 1.5em;
+    color: blue;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
+
+.price {
+    font-size: 1.5em;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    margin-right: 10px;
+}
+
+.price:before, .price:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+.price:before {
+    filter: blur(15px);
+}
+
+.price:after {
+    filter: blur(30px);
+}
+
+.price:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.price:hover:before {
+    transform: scale(1.3);
+}
+
+.price:hover:after {
+    transform: scale(1.5);
+}
+
+.offer-badge {
+    font-size: 1.5em;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00b09b, #96c93d);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    margin-left: 10px;
+}
+
+.offer-badge:before, .offer-badge:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+.offer-badge:before {
+    filter: blur(15px);
+}
+
+.offer-badge:after {
+    filter: blur(30px);
+}
+
+.offer-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.offer-badge:hover:before {
+    transform: scale(1.3);
+}
+
+.offer-badge:hover:after {
+    transform: scale(1.5);
+}
+
+.custom-btn {
+    font-size: 1.5em;
+    color: white;
+    background: #f0ad4e;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 50px;
+    display: inline-block;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+
+.custom-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+</style>
+{%endblock%}
+
+{% block content %}
+
+       <section class="content m-0 p-0">
+
+                        <div class="card card-solid">
+                        <div class="card-body">
+                        <div class="row">
+                        <div class="col-12 col-sm-6">
+                        <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+                        <div class="col-12">
+                        <img src="https://adminlte.io/themes/v3/dist/img/prod-1.jpg" class="product-image" alt="Product Image">
+                        </div>
+                        <div class="col-12 product-image-thumbs">
+                        <div class="product-image-thumb active"><img src="https://adminlte.io/themes/v3/dist/img/prod-1.jpg" alt="Product Image"  width="400" height="400"></div>
+                        <div class="product-image-thumb"><img src="https://adminlte.io/themes/v3/dist/img/prod-2.jpg" alt="Product Image"></div>
+                        <div class="product-image-thumb"><img src="https://adminlte.io/themes/v3/dist/img/prod-3.jpg" alt="Product Image"></div>
+                        <div class="product-image-thumb"><img src="https://adminlte.io/themes/v3/dist/img/prod-4.jpg" alt="Product Image"></div>
+                        <div class="product-image-thumb"><img src="https://adminlte.io/themes/v3/dist/img/prod-5.jpg" alt="Product Image"></div>
+                        </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <main class="">
+                                <div class="">
+                                  <h4 class="title text-dark">
+                                    {{product.name}}
+                                  </h4>
+                                  {% comment %} <div class="d-flex flex-row my-3">
+                                    <div class="text-warning mb-1 me-2">
+                                      <i class="fa fa-star"></i>
+                                      <i class="fa fa-star"></i>
+                                      <i class="fa fa-star"></i>
+                                      <i class="fa fa-star"></i>
+                                      <i class="fas fa-star-half-alt"></i>
+                                      <span class="ms-1">
+                                        4.5
+                                      </span>
+                                    </div>
+                                    <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                                    <span class="text-success ms-2">In stock</span>
+                                  </div> {% endcomment %}
+                        
+
+                                  <div class="mb-3 ">
+                                    <div class="price-container d-flex justify-content-around flex-wrap">
+                                      <span class="old-price">NPR 150.00</span>
+                                      <span class="price">NPR {{product.price}}</span>
+                                      <span class="offer-badge">50% OFF</span>
+                                      <span class="custom-btn">Buy Now</span>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-12 card">
+                                      <div class="card-header text-white" style="background-color:#001f3f;">
+                                      <h3 class="card-title">General Information</h3>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                      <table class="table table-sm">
+                                      
+                                      <tbody>
+                                      <tr>
+                                      <td>Category</td>
+                                      <td><span >{{product.category}}</span></td>
+                                      </tr>
+                                      <tr>
+                                      <td>Model Number</td>
+                                      
+                                      <td><span>{{product.model_number}}</span></td>
+                                      </tr>
+                                      </tbody>
+                                      </table>
+                                      </div>
+                                      
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-12 card">
+                                      <div class="card-header text-white" style="background-color:#001f3f;">
+                                      <h3 class="card-title">Specific Information</h3>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                      <table class="table table-sm">
+                                      
+                                      <tbody>
+                                      <tr>
+                                      <td>Category</td>
+                                     
+                                      <td><span class="badge bg-danger">55%</span></td>
+                                      </tr>
+                                      <tr>
+                                      <td>Model Number</td>
+                                                                          <td><span class="badge bg-warning">70%</span></td>
+                                      </tr>
+                                      <tr>
+                                      <td>Cron job running</td>
+                                      
+                                      <td><span class="badge bg-primary">30%</span></td>
+                                      </tr>
+                                      <tr>
+                                      <td>Fix and squish bugs</td>
+                                      
+                                      <td><span class="badge bg-success">90%</span></td>
+                                      </tr>
+                                      </tbody>
+                                      </table>
+                                      </div>
+                                      
+                                      </div>
+                                  </div>
+                        
+                                </div>
+
+
+                              </main>
+                              
+                            </div>
+                            
+                        </div>
+                        
+                        <div class=" mt-2 col-12 card">
+                          <div class="card-header text-center bg-primary text-lg">
+                            Description
+                          </div>
+                          <div class="card-body">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt quos tenetur, vitae ex necessitatibus pariatur corrupti qui ab error atque doloribus porro culpa.
+                             Ex saepe minima sequi nisi, veniam numquam!
+                         </div>
+                          <div class="card-footer text-center">
+                            <button class="btn btn-md btn-warning">Buy Now</button>
+                          </div>
+                        </div> 
+                    </section>
+                        
+{%endblock%}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function() {
+      $('.product-image-thumb').on('click', function () {
+        var $image_element = $(this).find('img')
+        $('.product-image').prop('src', $image_element.attr('src'))
+        $('.product-image-thumb.active').removeClass('active')
+        $(this).addClass('active')
+      })
+    })
+  </script>
+{% endblock%}

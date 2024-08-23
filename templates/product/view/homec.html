@@ -1,0 +1,557 @@
+
+{% block content %}
+<div class="row mx-2 ">
+    <div class="col-md-5 col-sm-1r2">
+        <div id="featured_products" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              {% for product in featured_products %}
+              <li data-target="#featured_products" data-slide-to="{{ forloop.counter|subtract:1 }}"  {% if forloop.counter == 1 %} class="active"> {% endif %}</li>
+              {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+              {% for product in featured_products %}
+              <div class="carousel-item  {% if forloop.counter == 1 %} active {% endif %}">
+                <img class="d-block w-100 fixed-size-img" src="{{ product.product.featured_image.url }}" alt="First slide">
+                <div class="carousel-caption d-none d-md-block  " style="">
+                  <div style=" background-color: rgba(0,0 , 0, 0.4)">
+                  <h5 class="shadow-none p-1 mb-5 text-bold text-capitalize " style="color: yellow;">{{product.title}}
+                    <br>
+                    {{product.short_description}}
+                  </h5>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+            <a class="carousel-control-prev" href="#featured_products" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#featured_products" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+    </div>
+    <div class="col-md-7 col-sm-f">
+        <div class="">
+            <div class="row ">
+
+              {% for product in offered_products %}
+
+                <div class="col-md-5 col-sm-12">
+                  <div class="card h-100 shadow-sm">
+                    <div class="category-label">{{product.product.category}}</div>
+                    <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                      <img src="{{product.product.featured_image.url}}" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                    </a>
+                    {% if product.product.brand %}
+
+                    <div class="label-top">
+                      <a style="color : #D6ED17FF;" href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.brand}}</a>
+                    </div>
+
+                    {%endif%}
+
+                    <div class="ml-1 mr-1">
+                      <div >
+                        <div class="d-flex justify-content-around  align-items-center flex-wrap">
+                          <div>
+                             <span class="actual-price">रु  {{product.product.price}}</span> <br>
+                             <span class="offer-price">रु  {{product.price_after_offer}}</span>
+                          </div>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning ml-auto">Buy</a>
+                      </div>
+
+                      </div>
+                      <h5 class="card-title">
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">{{product.product.name}}</a>
+                      </h5>
+                      
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            
+              </div> 
+              <div class=""> <div class="ticker"> <div class="title"><h5>Offers for you</h5></div>
+               <div class="news"> 
+                <marquee class="news-content">
+                    {% for news in offer_products_news %}
+                      <p>{{news.description}}<p>
+                    {% endfor %}
+                     </marquee> </div> </div> </div>
+            </div>
+        
+    </div>
+
+  
+</div>
+
+  <div class="ccol-12 mt-1  ">
+    <div class="text-center text-xl"><span> Products and Services</span></div>
+
+    <div class="d-flex flex-wrap justify-content-around ">
+
+                    
+               
+                <a class="btn btn-app">
+                <i class="fas fa-pause"></i> Pause
+                </a>
+                <a class="btn btn-app">
+                <i class="fas fa-save"></i> Save
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-warning">3</span>
+                <i class="fas fa-bullhorn"></i> Notifications
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-success">300</span>
+                <i class="fas fa-barcode"></i> Products
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-purple">891</span>
+                <i class="fas fa-users"></i> Users
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-teal">67</span>
+                <i class="fas fa-inbox"></i> Orders
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-info">12</span>
+                <i class="fas fa-envelope"></i> Inbox
+                </a>
+                <a class="btn btn-app">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-heart"></i> Likes
+                </a>
+                <a class="btn btn-app bg-secondary">
+                <span class="badge bg-success">300</span>
+                <i class="fas fa-barcode"></i> Products
+                </a>
+                <a class="btn btn-app bg-success">
+                <span class="badge bg-purple">891</span>
+                <i class="fas fa-users"></i> Users
+                </a>
+                <a class="btn btn-app bg-danger">
+                <span class="badge bg-teal">67</span>
+                <i class="fas fa-inbox"></i> Orders
+                </a>
+                <a class="btn btn-app bg-warning">
+                <span class="badge bg-info">12</span>
+                <i class="fas fa-envelope"></i> Inbox
+                </a>
+                <a class="btn btn-app bg-info">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-heart"></i> Likes
+                </a>
+                </div>
+</div>
+
+
+
+    <div class="card m-3">
+        <div class="card-header text-lg text-center bg-primary">
+          Trending Products
+        </div>
+        <div class="card-body">
+            <div class="row g-3 p-1">
+                {% comment %} start from here {% endcomment %}
+                <div class="col-3">
+                  <div class="card h-100 shadow-sm">
+                    <div class="category-label">Laptop</div>
+                    <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                      <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                    </a>
+                    <div class="label-top">
+                      <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                    </div>
+                    <div class="m-2">
+                      <div class="price-container d-flex justify-content-around flex-wrap">
+                        <span class="actual-price ml-1">$1,345</span>
+                        <span class="offer-price">$1,245</span>
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+
+                      </div>
+                      <h5 class="card-title">
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                      </h5>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                {% comment %} end here {% endcomment %}
+                <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+            
+                </div>
+            
+              </div> 
+            </div>
+        </div>
+    </div>
+
+    <div class="card m-3">
+        <div class="card-header text-lg text-center bg-primary">
+          Most Sold Products
+        </div>
+        <div class="card-body">
+            <div class="row g-3 p-1">
+                {% comment %} start from here {% endcomment %}
+                <div class="col-3">
+                  <div class="card h-100 shadow-sm">
+                    <div class="category-label">Laptop</div>
+                    <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                      <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                    </a>
+                    <div class="label-top">
+                      <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                    </div>
+                    <div class="m-2">
+                      <div class="price-container d-flex justify-content-around flex-wrap">
+                        <span class="actual-price ml-1">$1,345</span>
+                        <span class="offer-price">$1,245</span>
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+
+                      </div>
+                      <h5 class="card-title">
+                        <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                      </h5>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                {% comment %} end here {% endcomment %}
+                <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card h-100 shadow-sm">
+                      <div class="category-label">Laptop</div>
+                      <a href="https://amzn.to/3qeS1Fe" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="ASUS TUF FX505DT Gaming Laptop">
+                      </a>
+                      <div class="label-top">
+                        <a class="text-white" href="https://amzn.to/3qeS1Fe" target="_blank">asus</a>
+                      </div>
+                      <div class="m-2">
+                        <div class="price-container d-flex justify-content-around flex-wrap">
+                          <span class="actual-price ml-1">$1,345</span>
+                          <span class="offer-price">$1,245</span>
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank" class="btn btn-warning">Buy</a>
+  
+                        </div>
+                        <h5 class="card-title">
+                          <a href="https://amzn.to/3qeS1Fe" target="_blank">ASUS TUF FX505DT Gaming Laptop - 15.6", 120Hz Full HD, AMD Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
+                        </h5>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+            
+                </div>
+            
+              </div> 
+            </div>
+        </div>
+    </div>
+      
+</div>
+{%endblock%}
