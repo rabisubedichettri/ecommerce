@@ -12,8 +12,7 @@ from rest_framework.response import Response
 
 from rest_framework.pagination import PageNumberPagination
 from .paginations import StandardResultsSetPagination
-from .models import OfferProductNews,FeaturedProduct,MostSoldProduct
-
+from .models import OfferProductNews,FeaturedProduct,MostSoldProduct,ProductLog
 
 
 def product_category(request):
@@ -182,3 +181,52 @@ def product_offer(request):
     offers = ProductOffer.objects.all()
     context['offers'] = offers
     return render(request, "product/offer.html", context)
+
+
+def product_category_publish(request):
+    context={}
+    if request.method=="POST":
+    
+        action = request.POST.get('action',None)
+        if action=="change":
+            category_id= request.POST.get('category_id',None)
+            if category_id is not None and category_id != "":
+                obj=ProductCategory.objects.filter(id=category_id)
+                if obj.exists():
+                    data=obj[0]
+                    if data.published:
+                        data.published=False
+                        messages.success(request, "Unpublished  {}".format(obj[0].name ))
+                    else:
+                        data.published=True
+                        messages.success(request, "Published  {}".format(obj[0].name ))
+
+                    data.save()
+
+                else:
+                    messages.warning(request, "Please try to remove exitsing product category")
+            else:
+                messages.warning(request, "Please try to remove exitsing  category")
+             
+        categories=ProductCategory.objects.all()
+        
+    elif request.method=="GET":
+        action= request.GET.get('action',None)
+        if action=="search":
+            category=request.GET.get("category",None)
+            if category is not None and category is not "":
+                context['search_category']=category
+                categories=ProductCategory.objects.filter(name__contains=category)
+            else:
+                categories=ProductCategory.objects.all()
+        else:
+            categories=ProductCategory.objects.all()
+
+    context['categories']=categories
+    return render(request,"dashboard/product/category/publish.html",context)
+
+    
+def product_category_log(request):
+    if request.method == 'GET':
+        pass
+    return render(request,"dashboard/log.html")

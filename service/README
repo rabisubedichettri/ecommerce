@@ -1,0 +1,17 @@
+# Make a virtual environment
+python -m venv env
+
+# activate the vitual enviroment
+source ./env/bin/activate
+
+# install all the packages neccessary for running the project
+pip install -r requirements.txt
+
+# migrate server
+python ./manage.py migrate
+
+# create super user
+python ./manage.py createsuperuser
+
+# run the server at port 9000
+python ./manage.py runserver 9000

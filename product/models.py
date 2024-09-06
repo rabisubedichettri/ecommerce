@@ -7,6 +7,7 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    published= models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -53,8 +54,21 @@ class ProductOffer(models.Model):
         return f"Offer for {self.product.name}"
 
 class ProductLog(models.Model):
+    ACTION_CHOICES = [
+        ('delete', 'Delete'),
+        ('update', 'Update'),
+        ('create', 'Create'),
+        ('none', 'None')  # Add other options if needed
+        ]
+    
+    action = models.CharField(
+        max_length=10,
+        choices=ACTION_CHOICES,
+        default='none'
+        )
     product = models.ForeignKey(Product, related_name='log', on_delete=models.CASCADE)
     logger = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.CharField(max_length=500)
     ip = models.GenericIPAddressField()
     mac = models.CharField(max_length=17)
     browser_agent = models.CharField(max_length=255)
